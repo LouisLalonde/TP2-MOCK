@@ -1,4 +1,7 @@
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   zap_scan:
@@ -8,5 +11,4 @@ jobs:
     - name: ZAP Scan
       uses: zaproxy/action-full-scan@v0.11.0
       with:
-        ref: master
         target: ${{ secrets.WEB_APP_DNS }}
