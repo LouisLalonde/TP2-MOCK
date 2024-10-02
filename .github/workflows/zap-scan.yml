@@ -8,5 +8,5 @@ jobs:
     - name: ZAP Scan
       uses: zaproxy/action-full-scan@v0.11.0
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: master
         target: ${{ secrets.WEB_APP_DNS }}
