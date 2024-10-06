@@ -32,7 +32,7 @@ jobs:
         with:
           images: ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}
           tags: |
-                type=raw,value=${{ github.ref }},prefix=refs/heads/release/,suffix=
+                type=raw,value=${{ github.ref }},prefix=refs-heads-release-refs-heads-release-,suffix=
 
       - name: Build and push Docker image
         id: push
