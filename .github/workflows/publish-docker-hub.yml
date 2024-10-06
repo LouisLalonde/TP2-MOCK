@@ -32,11 +32,7 @@ jobs:
         with:
           images: ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}
           tags: |
-                type=ref,event=branch
-                type=ref,event=pr
-                type=semver,pattern={{version}}
-                type=semver,pattern={{major}}
-                type=semver,pattern={{major}}.{{minor}}
+            type=raw,value=${{ github.ref_name }},pattern=^release/(?<version>.*)$,group=version
 
       - name: Build and push Docker image
         id: push
