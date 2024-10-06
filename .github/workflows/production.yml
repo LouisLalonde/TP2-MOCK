@@ -1,10 +1,11 @@
 name: Production Release Workflow
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches:
-      - master
       - main
+      - master
 
 jobs:
   tag-and-deploy:
@@ -23,17 +24,9 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Extract Version from Branch Name
+    - name: Extract version from branch name
       id: extract_version
-      run: |
-        BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-        if [[ "$BRANCH_NAME" =~ ^release/(.*)$ ]]; then
-          VERSION=${BASH_REMATCH[1]}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-        else
-          echo "Not a release branch. Exiting."
-          exit 1
-        fi
+      run: echo "VERSION=${GITHUB_HEAD_REF#release/}" >> $GITHUB_ENV
 
     - name: Create Git Tag
       run: |
