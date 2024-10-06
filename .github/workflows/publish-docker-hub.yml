@@ -31,8 +31,8 @@ jobs:
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
           images: ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}
-          custom-tags: |
-              type=raw,value=${{ github.ref }},prefix=refs/heads/release/,suffix=
+          tags: |
+                type=raw,value=${{ github.ref }},prefix=refs/heads/release/,suffix=
 
       - name: Build and push Docker image
         id: push
