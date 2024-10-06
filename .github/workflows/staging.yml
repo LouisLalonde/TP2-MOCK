@@ -1,6 +1,6 @@
 # Taken and adapted from https://docs.github.com/en/actions/use-cases-and-examples/publishing-packages/publishing-docker-images#prerequisites
 
-name: Publish Docker image
+name: Staging Release Workflow
 
 on:
   push:
