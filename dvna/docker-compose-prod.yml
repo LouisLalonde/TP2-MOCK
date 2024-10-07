@@ -17,3 +17,19 @@ services:
       - "5432"
     env_file:
       - ./vars.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+     - ./watchtower.env
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+    command: --run-once my-service
+
+volumes:
+  postgres_data:

@@ -21,3 +21,8 @@ services:
       - "5432"
     env_file:
       - ./vars.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
