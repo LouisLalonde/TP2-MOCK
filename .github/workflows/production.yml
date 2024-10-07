@@ -10,6 +10,11 @@ on:
 jobs:
   tag-and-deploy:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+      attestations: write
+      id-token: write
 
     steps:
     - name: Checkout Code
@@ -28,19 +33,6 @@ jobs:
       id: extract_version
       run: echo "VERSION=${GITHUB_HEAD_REF#release/}" >> $GITHUB_ENV
 
-    - name: Rename Docker Image Tag
-      run: |
-        docker pull ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:staging-${{ env.VERSION }}
-        docker tag ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:staging-${{ env.VERSION }} ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.VERSION }}
-        docker push ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.VERSION }}
-
-    - name: Generate artifact attestation
-      uses: actions/attest-build-provenance@v1
-      with:
-        subject-name: docker.io/${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY}}
-        subject-digest: ${{ steps.push.outputs.digest }}
-        push-to-registry: true
-
     - name: Create Git Tag
       run: |
         git config --global user.name "github-actions"
@@ -56,3 +48,16 @@ jobs:
         release_name: Tagging ${{ env.VERSION }} for release.
         draft: false
         prerelease: false
+
+    - name: Rename Docker Image Tag
+      run: |
+        docker pull ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:staging-${{ env.VERSION }}
+        docker tag ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:staging-${{ env.VERSION }} ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.VERSION }}
+        docker push ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.VERSION }}
+
+    - name: Generate artifact attestation
+      uses: actions/attest-build-provenance@v1
+      with:
+        subject-name: docker.io/${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY}}
+        subject-digest: ${{ steps.push.outputs.digest }}
+        push-to-registry: true
