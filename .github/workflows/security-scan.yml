@@ -1,12 +1,12 @@
 on:
-  pull_request:
+  push:
     branches:
-      - master
-      - main
+      - 'release/**'
 
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
+    name: Execute Security Analysis
     steps:
     - uses: actions/checkout@v4
       with:

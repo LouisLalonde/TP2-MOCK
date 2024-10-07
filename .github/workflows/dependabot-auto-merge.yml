@@ -9,6 +9,7 @@ on:
 
 jobs:
   automerge:
+    name: Automerge Dependabot Pull Request
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

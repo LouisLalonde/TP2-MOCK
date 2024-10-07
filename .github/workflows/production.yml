@@ -9,6 +9,7 @@ on:
 
 jobs:
   tag-and-deploy:
+    name: Create Tag, Release and Push Production Docker image to Docker Hub
     runs-on: ubuntu-latest
     permissions:
       packages: write
