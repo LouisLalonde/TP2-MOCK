@@ -3,13 +3,9 @@
 version: "2.1"
 services:
   app:
-    build:
-      context: ./
-      dockerfile: Dockerfile-dev
+    image: llalondedkhub/log8100-dvna:latest
     ports:
       - 9090:9090
-    volumes:
-      - .:/app
     depends_on:
       - postgres-db
     env_file:
