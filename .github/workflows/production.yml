@@ -60,7 +60,9 @@ jobs:
         context: ./dvna
         file: ./dvna/Dockerfile-dev
         push: true
-        tags: ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.VERSION }}
+        tags: |
+          ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.VERSION }}
+          ${{ vars.DOCKER_NAMESPACE }}/${{ vars.DOCKER_REPOSITORY }}:latest
         labels: ${{ steps.meta.outputs.labels }}
 
     - name: Generate artifact attestation
