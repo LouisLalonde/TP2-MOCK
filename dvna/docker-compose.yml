@@ -3,21 +3,19 @@
 version: "2.1"
 services:
   app:
-    build:
-      context: ./
-      dockerfile: Dockerfile-dev
+    image: llalondedkhub/log8100-dvna:latest
     ports:
       - 9090:9090
     volumes:
       - .:/app
     depends_on:
-      - mysql-db
+      - postgres-db
     env_file:
       - ./vars.env
 
-  mysql-db:
-    image: mysql:5.7
+  postgres-db:
+    image: postgres:16.4
     expose:
-      - "3306"
+      - "5432"
     env_file:
       - ./vars.env
