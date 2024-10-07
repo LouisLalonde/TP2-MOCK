@@ -3,13 +3,9 @@
 version: "2.1"
 services:
   app:
-    build:
-      context: ./
-      dockerfile: Dockerfile-dev
+    image: llalondedkhub/log8100-dvna:latest
     ports:
       - 9090:9090
-    volumes:
-      - .:/app
     depends_on:
       - postgres-db
     env_file:
@@ -23,6 +19,17 @@ services:
       - ./vars.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+     - ./watchtower.env
+    environment:
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_POLL_INTERVAL=300
+    command: --run-once my-service
 
 volumes:
   postgres_data:
