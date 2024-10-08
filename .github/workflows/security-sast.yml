@@ -1,12 +1,10 @@
 on:
-  push:
-    branches:
-      - 'release/**'
+  [push]
 
 jobs:
   sonarqube:
     runs-on: ubuntu-latest
-    name: Execute Security Analysis
+    name: Static Application Security Testing (SAST)
     steps:
     - uses: actions/checkout@v4
       with:
@@ -17,12 +15,3 @@ jobs:
       env:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-
-  zap_scan:
-    runs-on: ubuntu-latest
-    name: Scan the web application
-    steps:
-    - name: ZAP Scan
-      uses: zaproxy/action-full-scan@v0.11.0
-      with:
-        target: ${{ secrets.WEB_APP_DNS }}
