@@ -1,5 +1,8 @@
 on:
-  [push]
+  push:
+    branches-ignore:
+      - main
+      - master
 
 jobs:
   sonarqube:
