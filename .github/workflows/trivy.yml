@@ -45,7 +45,7 @@ jobs:
     - name: Run Clair V4
       uses: quay/clair-action@main
       with:
-        image-path: llalondedkhub/log8100-webgoat:latest
+        image-ref: llalondedkhub/log8100-webgoat:latest
         format: sarif
         output: clair_results.sarif
   
