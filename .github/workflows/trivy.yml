@@ -1,0 +1,43 @@
+name: Run Trivy
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - master
+
+jobs:
+  sonarqube:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: write
+      attestations: write
+      id-token: write
+      security-events: write
+      actions: read
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # Run Trivy vulnerability scanner
+    - name: Run Trivy vulnerability scanner
+      id: trivy-scan
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: llalondedkhub/log8100-webgoat:latest
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL'
+        timeout: '15m'
+        skip-files: '**/*.jar'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
