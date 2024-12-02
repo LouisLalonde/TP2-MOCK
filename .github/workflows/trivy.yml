@@ -41,14 +41,15 @@ jobs:
     #   with:
     #     sarif_file: 'trivy-results.sarif'
 
-
     - name: Run Clair V4
       uses: quay/clair-action@main
       with:
-        image-ref: llalondedkhub/log8100-webgoat:latest
-        format: sarif
-        output: clair_results.sarif
-  
+        image-ref: 'llalondedkhub/log8100-webgoat:latest'
+        format: 'sarif'
+        output: 'clair_results.sarif'
+        mode: 'offline'  # Important for GitHub Actions
+        db-file-url: 'https://raw.githubusercontent.com/quay/clair/main/examples/updater/testdata/updater-v4-vulnerability.db.gz'  # Example database URL
+
     - name: Upload sarif
       uses: github/codeql-action/upload-sarif@v2
       with:
