@@ -7,7 +7,7 @@ on:
       - master
 
 jobs:
-  sonarqube:
+  trivy:
     runs-on: ubuntu-latest
     permissions:
       packages: write
@@ -31,7 +31,6 @@ jobs:
         output: 'trivy-results.sarif'
         exit-code: '1'
         ignore-unfixed: true
-        vuln-type: 'os,library'
         severity: 'CRITICAL'
         timeout: '15m'
         skip-files: '**/*.jar'
